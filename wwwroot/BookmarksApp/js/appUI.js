@@ -22,6 +22,7 @@ function renderAbout() {
     saveContentScrollPosition();
     eraseContent();
     $("#createBookmark").hide();
+    $("#dropdownMenu").hide();
     $("#abort").show();
     $("#actionTitle").text("À propos...");
     $("#content").append(
@@ -92,6 +93,7 @@ async function renderBookmarks() {
     showWaitingGif();
     $("#actionTitle").text("Liste des favoris");
     $("#createBookmark").show();
+    $("#dropdownMenu").show();
     $("#abort").hide();
     let Bookmarks = await Bookmarks_API.Get();
     compileCategories(Bookmarks)
@@ -153,6 +155,7 @@ async function renderEditBookmarkForm(id) {
 async function renderDeleteBookmarkForm(id) {
     showWaitingGif();
     $("#createBookmark").hide();
+    $("#dropdownMenu").hide();
     $("#abort").show();
     $("#actionTitle").text("Retrait");
     let Bookmark = await Bookmarks_API.Get(id);
@@ -171,10 +174,6 @@ async function renderDeleteBookmarkForm(id) {
                             <span class="BookmarkTitle">${Bookmark.Title}</span>
                         </div>
                         <span class="BookmarkCategory">${Bookmark.Category}</span>
-                    </div>
-                    <div class="BookmarkCommandPanel">
-                        <span class="editCmd cmdIcon fa fa-pencil" editBookmarkId="${Bookmark.Id}" title="Modifier ${Bookmark.Title}"></span>
-                        <span class="deleteCmd cmdIcon fa fa-trash" deleteBookmarkId="${Bookmark.Id}" title="Effacer ${Bookmark.Title}"></span>
                     </div>
                 </div>
             </div>   
@@ -216,6 +215,7 @@ function newBookmark() {
 }
 function renderBookmarkForm(Bookmark = null) {
     $("#createBookmark").hide();
+    $("#dropdownMenu").hide();
     $("#abort").show();
     eraseContent();
     let create = Bookmark == null;

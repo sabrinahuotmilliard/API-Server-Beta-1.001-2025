@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////
 import fs from "fs";
 import * as utilities from "../utilities.js";
+import { v1 as uuidv1 } from "uuid";
 
 export default class Repository {
     constructor(model) {
@@ -27,7 +28,7 @@ export default class Repository {
     }
     objects() {
         // Check if data is not already in memory
-        if (this.objectsList == null) 
+        if (this.objectsList == null)
             this.read();
         return this.objectsList;
     }

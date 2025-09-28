@@ -14,7 +14,7 @@
     "properties-reader": "^2.1.1",
     "query-string": "^9.1.0",
     "split-on-first": "^3.0.0",
-     "uuid": "^8.3.2"
+    "uuid": "^8.3.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

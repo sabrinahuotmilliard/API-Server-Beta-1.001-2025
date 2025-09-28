@@ -13,9 +13,9 @@ export default class Model {
             throw new Error("Cannot instantiate abstract class Model directly.");
         }
         this.fields = [];
-         this.key = null;
+        this.key = null;
         this.securedId = securedId;
-         // securedId use UUID instead of incremented integer
+        // securedId use UUID instead of incremented integer
         if (securedId)
             this.addField('Id', 'string');
         else

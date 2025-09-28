@@ -13,24 +13,12 @@ class Bookmarks_API {
         this.currentStatus = xhr.status;
         this.error = true;
     }
-    static async HEAD() {
-        Bookmarks_API.initHttpState();
-        return new Promise(resolve => {
-            $.ajax({
-                url: this.API_URL(),
-                type: 'HEAD',
-                contentType: 'text/plain',
-                complete: data => { resolve(data.getResponseHeader('ETag')); },
-                error: (xhr) => { Bookmarks_API.setHttpErrorState(xhr); resolve(null); }
-            });
-        });
-    }
     static async Get(id = null) {
         Bookmarks_API.initHttpState();
         return new Promise(resolve => {
             $.ajax({
                 url: this.API_URL() + (id != null ? "/" + id : ""),
-                complete: data => {  resolve({ETag:data.getResponseHeader('ETag'), data:data.responseJSON }); },
+                complete: data => {  resolve(data); },
                 error: (xhr) => { Bookmarks_API.setHttpErrorState(xhr); resolve(null); }
             });
         });

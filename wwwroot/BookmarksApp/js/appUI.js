@@ -115,7 +115,7 @@ async function renderBookmarks() {
         });
         // $(".BookmarkRow").on("click", function (e) { e.preventDefault(); })
     } else {
-        renderError("Service introuvable");
+        renderError();
     }
 }
 function showWaitingGif() {
@@ -131,7 +131,8 @@ function saveContentScrollPosition() {
 function restoreContentScrollPosition() {
     $("#content")[0].scrollTop = contentScrollPosition;
 }
-function renderError(message) {
+function renderError(message = "") {
+    message = (message == "" ? Bookmarks_API.currentHttpError : message);
     eraseContent();
     $("#content").append(
         $(`
@@ -188,7 +189,7 @@ async function renderDeleteBookmarkForm(id) {
             if (result)
                 renderBookmarks();
             else
-                renderError("Une erreur est survenue!");
+                renderError();
         });
         $('#cancel').on("click", function () {
             renderBookmarks();
@@ -282,8 +283,13 @@ function renderBookmarkForm(Bookmark = null) {
         let result = await Bookmarks_API.Save(Bookmark, create);
         if (result)
             renderBookmarks();
-        else
-            renderError("Une erreur est survenue!");
+        else {
+            if (Bookmarks_API.currentStatus == 409)
+                renderError("Erreur: Conflits de titres...");
+            else
+                renderError();
+        }
+           
     });
     $('#cancel').on("click", function () {
         renderBookmarks();

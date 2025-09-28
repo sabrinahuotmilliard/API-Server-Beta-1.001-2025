@@ -19,6 +19,9 @@ export default class Controller {
         this.HttpContext = HttpContext;
         this.repository = repository;
     }
+    head() {
+        this.HttpContext.response.notImplemented();
+    }
     get(id) {
         if (this.repository != null) {
             if (id !== '') {

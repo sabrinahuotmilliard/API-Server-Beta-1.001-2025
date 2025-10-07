@@ -160,7 +160,7 @@ function renderCreateBookmarkForm() {
 }
 async function renderEditBookmarkForm(id) {
     showWaitingGif();
-    let Bookmark = await Bookmarks_API.Get(id);
+    let Bookmark = Bookmarks.find(b => b.Id === id);
     if (Bookmark !== null)
         renderBookmarkForm(Bookmark);
     else

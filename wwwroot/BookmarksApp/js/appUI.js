@@ -1,6 +1,7 @@
 //<span class="cmdIcon fa-solid fa-ellipsis-vertical"></span>
 let contentScrollPosition = 0;
 let selectedCategory = "";
+let Bookmarks = '';
 
 Init_UI();
 
@@ -95,7 +96,19 @@ async function renderBookmarks() {
     $("#createBookmark").show();
     $("#dropdownMenu").show();
     $("#abort").hide();
-    let Bookmarks = await Bookmarks_API.Get();
+
+    //add code here to get bookmarks from API
+    const previousEtag = Bookmarks_API.Etag;
+    const currentEtag = await Bookmarks_API.Head();
+    console.log("ETag:", currentEtag);
+    console.log("Previous ETag:", previousEtag);
+
+    // ETag has changed, or first load
+    if (currentEtag != previousEtag) {
+        console.log("Getting bookmarks from server...");
+        Bookmarks = await Bookmarks_API.Get();
+    }
+   
     compileCategories(Bookmarks)
     eraseContent();
     if (Bookmarks !== null) {

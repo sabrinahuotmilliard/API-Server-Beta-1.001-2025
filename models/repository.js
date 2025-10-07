@@ -11,6 +11,10 @@ import fs from "fs";
 import * as utilities from "../utilities.js";
 import { v1 as uuidv1 } from "uuid";
 
+// ETags
+let repositoryEtags = {};
+export { repositoryEtags };
+
 export default class Repository {
     constructor(model) {
         if (model == null) {
@@ -21,6 +25,11 @@ export default class Repository {
         this.objectsName = model.getClassName() + "s";
         this.objectsFile = `./jsonFiles/${this.objectsName}.json`;
         this.errorMessages = [];
+
+        // ADD ETag for this repository
+        if (!repositoryEtags[this.objectsName]) {
+            repositoryEtags[this.objectsName] = uuidv1();
+        }
     }
     valid() {
         let valid = this.errorMessages.length == 0;
@@ -51,6 +60,8 @@ export default class Repository {
     }
     write() {
         fs.writeFileSync(this.objectsFile, JSON.stringify(this.objectsList));
+        //everytime we write on the file, we change data, and so we change the tag
+        this.updateETag();
     }
     createId() {
         if (this.model.securedId) {
@@ -189,5 +200,14 @@ export default class Repository {
             index++;
         }
         return -1;
+    }
+
+    //ETags Management
+    getETag() {
+        return repositoryEtags[this.objectsName];
+    }
+    updateETag() {
+        let newETag = uuidv1();
+        repositoryEtags[this.objectsName] = newETag;
     }
 }

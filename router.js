@@ -65,3 +65,8 @@ export const API_EndPoint = function (HttpContext) {
         }
     })
 }
+
+export const Registered_EndPoint = function (HttpContext) {
+    let route = RouteRegister.find(HttpContext);
+    // todo
+}

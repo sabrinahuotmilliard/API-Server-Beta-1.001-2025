@@ -26,6 +26,7 @@ import * as router from './router.js';
 let api_server_version = serverVariables.get("main.api_server_version");
 let api_server_release = serverVariables.get("main.api_server_release");
 
+this.middlewaresPipeline.add(router.Registered_EndPoint);
 global.Server_UTC_Offset = new Date().getTimezoneOffset() / 60;
 
 export default class APIServer {

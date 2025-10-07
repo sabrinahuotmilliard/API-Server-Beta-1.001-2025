@@ -28,7 +28,7 @@ export default class Controller {
                 this.HttpContext.response.ok();
                 this.HttpContext.response.end();
             } else {
-                this.HttpContext.response.notFound("Etag in repo not found. (head)");
+                this.HttpContext.response.notFound("Etag in repo not found. (head - server)");
             }
         } else
             this.HttpContext.response.notImplemented();
@@ -40,7 +40,7 @@ export default class Controller {
             if(serverEtag != null)
                 this.HttpContext.res.setHeader("Etag", serverEtag);
             else
-                this.HttpContext.response.notFound("Etag in repo not found. (get)");
+                this.HttpContext.response.notFound("Etag in repo not found. (get - server)");
 
             if (id !== '') {
                 let data = this.repository.get(id);

@@ -22,7 +22,7 @@ function Init_UI() {
         if (stopRefresh) return;
         saveContentScrollPosition();
         renderBookmarks();
-    }, 5000); // Refresh every 10 seconds
+    }, 10000); // Refresh every 10 seconds
 }
 
 function renderAbout() {

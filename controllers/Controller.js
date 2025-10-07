@@ -20,7 +20,18 @@ export default class Controller {
         this.repository = repository;
     }
     head() {
-        this.HttpContext.response.notImplemented();
+        //Injecter dans l'entete de la reponse l'ETag du repository
+        if (this.repository != null) {
+            let etag = this.repository.getETag();
+            if(etag != null) {
+                this.HttpContext.res.setHeader("Etag", etag);
+                this.HttpContext.response.ok();
+                this.HttpContext.response.end();
+            } else {
+                this.HttpContext.response.notFound("Etag in repo not found.");
+            }
+        } else
+            this.HttpContext.response.notImplemented();
     }
     get(id) {
         if (this.repository != null) {

@@ -17,6 +17,10 @@ function Init_UI() {
     $('#aboutCmd').on("click", function () {
         renderAbout();
     });
+    setInterval(() => {
+        saveContentScrollPosition();
+        renderBookmarks();
+    }, 10000); // Refresh every 10 seconds
 }
 
 function renderAbout() {

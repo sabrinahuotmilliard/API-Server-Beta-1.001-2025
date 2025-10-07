@@ -107,8 +107,6 @@ async function renderBookmarks() {
     //add code here to get bookmarks from API
     const previousEtag = Bookmarks_API.Etag;
     const currentEtag = await Bookmarks_API.Head();
-    console.log("ETag:", currentEtag);
-    console.log("Previous ETag:", previousEtag);
 
     // ETag has changed, or first load
     if (currentEtag != previousEtag) {

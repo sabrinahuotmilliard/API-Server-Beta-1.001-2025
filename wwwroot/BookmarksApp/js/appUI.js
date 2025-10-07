@@ -172,7 +172,7 @@ async function renderDeleteBookmarkForm(id) {
     $("#dropdownMenu").hide();
     $("#abort").show();
     $("#actionTitle").text("Retrait");
-    let Bookmark = await Bookmarks_API.Get(id);
+    let Bookmark = Bookmarks.find(b => b.Id === id);
     let favicon = makeFavicon(Bookmark.Url);
     eraseContent();
     if (Bookmark !== null) {

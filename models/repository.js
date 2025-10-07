@@ -12,8 +12,7 @@ import * as utilities from "../utilities.js";
 import { v1 as uuidv1 } from "uuid";
 
 // ETags
-let repositoryEtags = {};
-export { repositoryEtags };
+global.repositoryEtags = {};
 
 export default class Repository {
     constructor(model) {

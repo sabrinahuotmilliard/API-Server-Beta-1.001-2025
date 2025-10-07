@@ -16,7 +16,6 @@ class Bookmarks_API {
             });
         });
     }
-
     static initHttpState() {
         this.currentHttpError = "";
         this.currentStatus = 0;
@@ -32,10 +31,17 @@ class Bookmarks_API {
     }
     static async Get(id = null) {
         Bookmarks_API.initHttpState();
+
         return new Promise(resolve => {
             $.ajax({
                 url: this.API_URL() + (id != null ? "/" + id : ""),
-                complete: data => { resolve(data); },
+                type: 'GET',
+                contentType: 'application/json',
+                complete: data => { 
+                    //Store Etag from header
+                    Bookmarks_API.Etag = data.getResponseHeader('ETag');
+                    resolve(data.responseJSON); //array de bookmarks
+                },
                 error: (xhr) => { Bookmarks_API.setHttpErrorState(xhr); resolve(null); }
             });
         });

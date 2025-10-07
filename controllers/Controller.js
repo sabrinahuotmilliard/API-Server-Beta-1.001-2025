@@ -28,13 +28,20 @@ export default class Controller {
                 this.HttpContext.response.ok();
                 this.HttpContext.response.end();
             } else {
-                this.HttpContext.response.notFound("Etag in repo not found.");
+                this.HttpContext.response.notFound("Etag in repo not found. (head)");
             }
         } else
             this.HttpContext.response.notImplemented();
     }
     get(id) {
         if (this.repository != null) {
+            //ETags
+            let serverEtag = this.repository.getETag();
+            if(serverEtag != null)
+                this.HttpContext.res.setHeader("Etag", serverEtag);
+            else
+                this.HttpContext.response.notFound("Etag in repo not found. (get)");
+
             if (id !== '') {
                 let data = this.repository.get(id);
                 if (data != null)

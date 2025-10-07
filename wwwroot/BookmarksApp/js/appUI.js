@@ -2,6 +2,7 @@
 let contentScrollPosition = 0;
 let selectedCategory = "";
 let Bookmarks = '';
+let stopRefresh = false;
 
 Init_UI();
 
@@ -18,9 +19,10 @@ function Init_UI() {
         renderAbout();
     });
     setInterval(() => {
+        if (stopRefresh) return;
         saveContentScrollPosition();
         renderBookmarks();
-    }, 10000); // Refresh every 10 seconds
+    }, 5000); // Refresh every 10 seconds
 }
 
 function renderAbout() {
@@ -95,6 +97,7 @@ function compileCategories(bookmarks) {
     }
 }
 async function renderBookmarks() {
+    stopRefresh = false;
     showWaitingGif();
     $("#actionTitle").text("Liste des favoris");
     $("#createBookmark").show();
@@ -163,6 +166,7 @@ function renderCreateBookmarkForm() {
     renderBookmarkForm();
 }
 async function renderEditBookmarkForm(id) {
+    stopRefresh = true;
     showWaitingGif();
     let Bookmark = Bookmarks.find(b => b.Id === id);
     if (Bookmark !== null)
@@ -171,6 +175,7 @@ async function renderEditBookmarkForm(id) {
         renderError("Bookmark introuvable!");
 }
 async function renderDeleteBookmarkForm(id) {
+    stopRefresh = true;
     showWaitingGif();
     $("#createBookmark").hide();
     $("#dropdownMenu").hide();
@@ -203,12 +208,14 @@ async function renderDeleteBookmarkForm(id) {
         $('#deleteBookmark').on("click", async function () {
             showWaitingGif();
             let result = await Bookmarks_API.Delete(Bookmark.Id);
-            if (result)
-                renderBookmarks();
+            if (result){
+                stopRefresh = false;
+                renderBookmarks();}
             else
                 renderError();
         });
         $('#cancel').on("click", function () {
+            stopRefresh = false;
             renderBookmarks();
         });
     } else {
@@ -232,6 +239,7 @@ function newBookmark() {
     return Bookmark;
 }
 function renderBookmarkForm(Bookmark = null) {
+    stopRefresh = true;
     $("#createBookmark").hide();
     $("#dropdownMenu").hide();
     $("#abort").show();
@@ -309,6 +317,7 @@ function renderBookmarkForm(Bookmark = null) {
            
     });
     $('#cancel').on("click", function () {
+        stopRefresh = false;
         renderBookmarks();
     });
 }
